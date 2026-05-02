@@ -799,3 +799,24 @@
 .rule-close-button:hover {
   background: #e0b030;
 }
+
+/* ルールボタン */
+.header-rule-button {
+  background: none;
+  border: 2px solid #f0c040;
+  color: #f0c040;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 8px;
+}
+.header-rule-button:hover {
+  background: #f0c040;
+  color: #1a1a2e;
+}

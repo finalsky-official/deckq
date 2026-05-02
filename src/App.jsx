@@ -6,7 +6,6 @@ import GuessHistory from "./components/GuessHistory";
 import DeckPreview from "./components/DeckPreview";
 import CardGrid from "./components/CardGrid";
 import ResultModal from "./components/ResultModal";
-import RuleModal from "./components/RuleModal";
 import AdminPanel from "./components/AdminPanel";
 import "./App.css";
 
@@ -125,6 +124,7 @@ export default function App() {
         resetGame={resetGame}
         publicMode={PUBLIC_MODE}
       />
+
     </div>
   );
 }
