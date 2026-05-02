@@ -13,7 +13,7 @@ export default function Header({ todayDate, attemptsLeft, maxAttempts }) {
             残り {attemptsLeft}/{maxAttempts}
           </span>
           <button className="header-rule-button" onClick={() => setShowRules(true)}>
-            ？
+            ルール
           </button>
         </div>
       </header>
