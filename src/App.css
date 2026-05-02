@@ -728,3 +728,74 @@
 .modal-share-native:hover {
   background: #43a047;
 }
+
+/* ルール説明モーダル */
+.rule-modal {
+  max-width: 400px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+.rule-title {
+  text-align: center;
+  color: #f0c040;
+  margin-bottom: 16px;
+}
+.rule-body {
+  text-align: left;
+}
+.rule-text {
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+.rule-section {
+  margin-bottom: 14px;
+}
+.rule-section h3 {
+  color: #f0c040;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+.rule-section p {
+  font-size: 13px;
+  color: #ccc;
+  line-height: 1.6;
+}
+.rule-colors {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.rule-color-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: #ccc;
+}
+.rule-color-box {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.rule-green { background: #4caf50; }
+.rule-yellow { background: #ffc107; }
+.rule-gray { background: #555; }
+.rule-close-button {
+  display: block;
+  width: 100%;
+  margin-top: 20px;
+  padding: 12px;
+  background: #f0c040;
+  color: #1a1a2e;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.rule-close-button:hover {
+  background: #e0b030;
+}
