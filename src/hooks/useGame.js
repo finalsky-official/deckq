@@ -8,9 +8,12 @@ const PUBLIC_MODE = true;
 
 function getTodayJST() {
   const now = new Date();
-  const jst = new Date(now.getTime() + (9 * 60 + now.getTimezoneOffset()) * 60000);
-  return jst.toISOString().slice(0, 10);
+  const jst = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Tokyo" }));
+  return jst.getFullYear() + "-" +
+    String(jst.getMonth() + 1).padStart(2, "0") + "-" +
+    String(jst.getDate()).padStart(2, "0");
 }
+
 
 function hashDate(dateStr) {
   let hash = 0;
