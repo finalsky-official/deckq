@@ -36,7 +36,7 @@ export default function CardGrid({
             title={card.name}
           >
             <img
-              src={`/cards/${card.img}`}
+              src={`${import.meta.env.BASE_URL}cards/${card.img}`}
               alt={card.name}
               className="card-cell-img"
               draggable={false}

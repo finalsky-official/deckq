@@ -246,7 +246,7 @@ const changeMonth = (direction) => {
           const card = cardsData.find(c => c.id === id);
           return (
             <div key={id} className="admin-selected-card" onClick={() => toggleCard(id)}>
-              <img src={`/cards/${card?.img}`} alt={card?.name} />
+              <img src={` ${import.meta.env.BASE_URL}cards/${ {card?.img}`} alt={card?.name} />
               <span className="admin-remove">×</span>
             </div>
           );
@@ -271,7 +271,7 @@ const changeMonth = (direction) => {
                   className={`admin-reveal-card ${isCandidate ? "admin-reveal-selected" : ""}`}
                   onClick={() => toggleRevealCandidate(id)}
                 >
-                  <img src={`/cards/${card?.img}`} alt={card?.name} />
+                  <img src={` ${import.meta.env.BASE_URL}cards/${ {card?.img}`} alt={card?.name} />
                   <span className="admin-reveal-name">{card?.name}</span>
                 </div>
               );
@@ -298,7 +298,7 @@ const changeMonth = (direction) => {
             className={`admin-card ${selectedCards.includes(card.id) ? "admin-card-selected" : ""}`}
             onClick={() => toggleCard(card.id)}
           >
-            <img src={`/cards/${card.img}`} alt={card.name} />
+            <img src={` ${import.meta.env.BASE_URL}cards/${ {card.img}`} alt={card.name} />
           </div>
         ))}
       </div>
@@ -338,7 +338,7 @@ const changeMonth = (direction) => {
           return card ? (
             <img
               key={i}
-              src={`/cards/${card.img}`}
+              src={` ${import.meta.env.BASE_URL}cards/${ {card.img}`}
               alt={card.name}
               title={card.name}
               className="admin-saved-card-img"

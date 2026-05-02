@@ -26,7 +26,7 @@ export default function DeckPreview({
               title="クリックで選択解除"
             >
               <img
-                src={`/cards/${card?.img}`}
+                src={`${import.meta.env.BASE_URL}cards/${card?.img}`}
                 alt={card?.name || cardId}
                 className="preview-card-img"
               />

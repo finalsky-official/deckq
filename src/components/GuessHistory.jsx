@@ -13,7 +13,7 @@ export default function GuessHistory({ guessHistory, getCard }) {
                 return (
                   <div key={j} className={`guess-card guess-${result}`}>
                     <img
-                      src={`/cards/${card?.img}`}
+                      src={`${import.meta.env.BASE_URL}cards/${card?.img}`}
                       alt={card?.name || cardId}
                       className="guess-card-img"
                     />

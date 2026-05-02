@@ -35,7 +35,7 @@ export default function ResultModal({
             return (
               <div key={cardId} className="modal-card">
                 <img
-                  src={`/cards/${card?.img}`}
+                  src={`${import.meta.env.BASE_URL}cards/${card?.img}`}
                   alt={card?.name || cardId}
                   className="modal-card-img"
                 />
