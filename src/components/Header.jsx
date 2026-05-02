@@ -26,7 +26,7 @@ export default function Header({ todayDate, attemptsLeft, maxAttempts }) {
               <p className="rule-text">今日のお題デッキ（8枚）を当てよう！</p>
               <div className="rule-section">
                 <h3>ルール</h3>
-                <p>8枚のカードを選んで提出すると、1枚ずつ結果が表示されます。</p>
+                <p>8枚のカードを選んで回答すると、1枚ずつ結果が表示されます。</p>
               </div>
               <div className="rule-section">
                 <h3>色の意味</h3>
@@ -37,7 +37,7 @@ export default function Header({ todayDate, attemptsLeft, maxAttempts }) {
                   </div>
                   <div className="rule-color-item">
                     <span className="rule-color-box rule-yellow"></span>
-                    <span>惜しい（同じカードの別バージョンがデッキにある）</span>
+                    <span>惜しい（同じカードの別形態がデッキにある）</span>
                   </div>
                   <div className="rule-color-item">
                     <span className="rule-color-box rule-gray"></span>
