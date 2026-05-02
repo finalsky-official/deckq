@@ -22,7 +22,7 @@ export default function ResultModal({
       }).join("")
     ).join("\n");
 
-    return `DeckQ ${new Date().toISOString().slice(0, 10)}\n${attempts}/10（ヒント${hintsUsed}個）\n\n${emojiGrid}\n\nhttps://finalsky-official.github.io/deckq/`;
+    return `#DeckQ #ファイナルスカイ ${new Date().toISOString().slice(0, 10)}\n${attempts}/10（ヒント${hintsUsed}個）\n\n${emojiGrid}\n\nhttps://finalsky-official.github.io/deckq/`;
   };
 
   const handleShare = () => {
