@@ -4,7 +4,7 @@ import DECK_POOL from "../data/decks";
 import { getDeckByDate } from "../firebase";
 
 const MAX_ATTEMPTS = 10;
-const PUBLIC_MODE = false;
+const PUBLIC_MODE = true;
 
 function getTodayJST() {
   const now = new Date();
