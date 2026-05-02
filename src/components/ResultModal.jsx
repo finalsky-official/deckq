@@ -31,6 +31,21 @@ export default function ResultModal({
     window.open(twitterUrl, "_blank");
   };
 
+  const handleWebShare = async () => {
+    const text = generateShareText();
+    try {
+      await navigator.share({
+        title: "DeckQ - デッキュー",
+        text: text,
+      });
+    } catch (e) {
+      // ユーザーがキャンセルした場合は何もしない
+      if (e.name !== "AbortError") {
+        alert("共有に失敗しました");
+      }
+    }
+  };
+
   const handleCopy = async () => {
     const text = generateShareText();
     try {
@@ -40,6 +55,8 @@ export default function ResultModal({
       alert("コピーに失敗しました");
     }
   };
+
+  const canWebShare = typeof navigator !== "undefined" && !!navigator.share;
 
   return (
     <div className="modal-overlay">
@@ -74,10 +91,14 @@ export default function ResultModal({
           })}
         </div>
 
-        {/* 共有ボタン */}
         <div className="modal-share-buttons">
+          {canWebShare && (
+            <button className="modal-share-native" onClick={handleWebShare}>
+              共有する
+            </button>
+          )}
           <button className="modal-share-twitter" onClick={handleShare}>
-            Xで共有する
+            Xで共有
           </button>
           <button className="modal-share-copy" onClick={handleCopy}>
             結果をコピー

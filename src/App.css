@@ -714,3 +714,17 @@
 .modal-share-copy:hover {
   background: #555;
 }
+
+/* Web Share ボタン */
+.modal-share-native {
+  background: #4caf50;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.modal-share-native:hover {
+  background: #43a047;
+}
