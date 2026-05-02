@@ -12,6 +12,35 @@ export default function ResultModal({
 
   const hintsUsed = hintsOpened.filter(Boolean).length;
 
+  const generateShareText = () => {
+    const attempts = gameWon ? guessHistory.length : "X";
+    const emojiGrid = guessHistory.map(guess =>
+      guess.map(({ result }) => {
+        if (result === "green") return "🟩";
+        if (result === "yellow") return "🟨";
+        return "⬛";
+      }).join("")
+    ).join("\n");
+
+    return `DeckQ ${new Date().toISOString().slice(0, 10)}\n${attempts}/10（ヒント${hintsUsed}個）\n\n${emojiGrid}\n\nhttps://finalsky-official.github.io/deckq/`;
+  };
+
+  const handleShare = () => {
+    const text = generateShareText();
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
+    window.open(twitterUrl, "_blank");
+  };
+
+  const handleCopy = async () => {
+    const text = generateShareText();
+    try {
+      await navigator.clipboard.writeText(text);
+      alert("コピーしました！");
+    } catch {
+      alert("コピーに失敗しました");
+    }
+  };
+
   return (
     <div className="modal-overlay">
       <div className="modal-content">
@@ -44,9 +73,19 @@ export default function ResultModal({
           })}
         </div>
 
+        {/* 共有ボタン */}
+        <div className="modal-share-buttons">
+          <button className="modal-share-twitter" onClick={handleShare}>
+            Xで共有する
+          </button>
+          <button className="modal-share-copy" onClick={handleCopy}>
+            結果をコピー
+          </button>
+        </div>
+
         {!publicMode && (
           <button className="modal-reset-button" onClick={resetGame}>
-            もう一度プレイ
+            もう一度プレイ（テスト用）
           </button>
         )}
       </div>

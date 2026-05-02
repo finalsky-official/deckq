@@ -682,3 +682,35 @@
   font-size: 14px;
   padding: 20px 0;
 }
+
+/* 共有ボタン */
+.modal-share-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin: 16px 0;
+}
+.modal-share-twitter {
+  background: #1d9bf0;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.modal-share-twitter:hover {
+  background: #1a8cd8;
+}
+.modal-share-copy {
+  background: #444;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.modal-share-copy:hover {
+  background: #555;
+}
