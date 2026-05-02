@@ -246,7 +246,7 @@ const changeMonth = (direction) => {
           const card = cardsData.find(c => c.id === id);
           return (
             <div key={id} className="admin-selected-card" onClick={() => toggleCard(id)}>
-              <img src={` ${import.meta.env.BASE_URL}cards/${ {card?.img}`} alt={card?.name} />
+              src={`${import.meta.env.BASE_URL}cards/${card?.img}`}
               <span className="admin-remove">×</span>
             </div>
           );
