@@ -1,0 +1,684 @@
+/* ========== 全体レイアウト ========== */
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+
+/* ========== ヘッダー ========== */
+.header {
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.header-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #f0c040;
+  margin: 0 0 4px 0;
+}
+
+.header-info {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  font-size: 14px;
+  color: #aaa;
+}
+
+/* ========== ヒントエリア ========== */
+.hint-area {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.hint-button {
+  flex: 1;
+  padding: 8px 4px;
+  border: 2px solid #555;
+  border-radius: 8px;
+  background: #2a2a3e;
+  color: #ccc;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+  min-height: 40px;
+}
+
+.hint-button:hover:not(:disabled) {
+  border-color: #f0c040;
+  color: #f0c040;
+}
+
+.hint-button.hint-opened {
+  border-color: #f0c040;
+  background: #3a3a2e;
+  color: #f0c040;
+  cursor: default;
+  font-size: 11px;
+}
+
+/* ========== 試行結果エリア ========== */
+.guess-history {
+  margin-bottom: 12px;
+}
+
+.guess-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.guess-cards {
+  display: flex;
+  gap: 3px;
+  flex: 1;
+}
+
+.guess-card {
+  width: 44px;
+  height: 52px;
+  border-radius: 4px;
+  border: 3px solid transparent;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.guess-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.guess-green {
+  border-color: #4CAF50;
+  background: rgba(76, 175, 80, 0.2);
+}
+
+.guess-yellow {
+  border-color: #FFC107;
+  background: rgba(255, 193, 7, 0.2);
+}
+
+.guess-gray {
+  border-color: #616161;
+  background: rgba(97, 97, 97, 0.2);
+  opacity: 0.6;
+}
+
+.guess-count {
+  font-size: 14px;
+  font-weight: 700;
+  color: #eee;
+  min-width: 32px;
+  text-align: center;
+}
+
+/* ========== 選択中プレビュー ========== */
+.deck-preview {
+  background: #2a2a3e;
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+}
+
+.deck-preview-header {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.deck-preview-count {
+  font-size: 13px;
+  color: #aaa;
+}
+
+.deck-preview-slots {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  padding: 0 4px;
+  margin-bottom: 12px;
+}
+
+
+
+.preview-slot {
+  width: 44px;
+  height: 44px;
+  border-radius: 4px;
+}
+
+.preview-card-img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+@media (min-width: 600px) {
+  .preview-slot {
+    width: 56px;
+    height: 56px;
+  }
+  .preview-card-img {
+    width: 52px;
+    height: 52px;
+  }
+}
+
+
+
+.preview-empty {
+  border: 2px dashed #555;
+  background: #1a1a2e;
+}
+
+.preview-filled {
+  border: 2px solid #f0c040;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+.preview-filled:hover {
+  transform: scale(1.08);
+}
+
+.submit-button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #f0c040;
+  color: #1a1a2e;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.submit-button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.submit-button:hover:not(:disabled) {
+  opacity: 0.85;
+}
+
+/* ========== カード選択エリア ========== */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(55px, 1fr));
+  gap: 6px;
+  padding: 16px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+@media (min-width: 600px) {
+  .card-grid {
+    grid-template-columns: repeat(auto-fill, minmax(58px, 1fr));
+    gap: 8px;
+    padding: 16px 24px;
+  }
+}
+
+@media (min-width: 900px) {
+  .card-grid {
+    grid-template-columns: repeat(auto-fill, minmax(62px, 1fr));
+    gap: 10px;
+    padding: 16px 32px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .card-grid {
+    grid-template-columns: repeat(auto-fill, minmax(65px, 1fr));
+    gap: 12px;
+  }
+}
+
+
+.card-cell {
+  aspect-ratio: 5 / 6;
+  border-radius: 4px;
+  border: 2px solid transparent;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.15s;
+  position: relative;
+}
+
+.card-cell:hover {
+  transform: scale(1.06);
+}
+
+.card-cell-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.card-selected {
+  border-color: #f0c040;
+  box-shadow: 0 0 8px rgba(240, 192, 64, 0.5);
+}
+
+.card-status-gray {
+  opacity: 0.3;
+}
+
+.card-status-yellow {
+  box-shadow: inset 0 0 0 2px rgba(255, 193, 7, 0.4);
+}
+
+.card-status-green {
+  box-shadow: inset 0 0 0 2px rgba(76, 175, 80, 0.4);
+}
+
+.card-status-gray.card-selected {
+  opacity: 0.7;
+}
+
+/* ========== モーダル ========== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 20px;
+}
+
+.modal-content {
+  background: #2a2a3e;
+  border-radius: 16px;
+  padding: 24px;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+
+.modal-title {
+  font-size: 28px;
+  margin: 0 0 8px 0;
+}
+
+.modal-win {
+  color: #4CAF50;
+}
+
+.modal-lose {
+  color: #f44336;
+}
+
+.modal-subtitle {
+  color: #aaa;
+  font-size: 14px;
+  margin: 0 0 16px 0;
+}
+
+.modal-deck {
+  display: grid;
+  grid-template-columns: repeat(4, 60px);
+  gap: 8px;
+  justify-content: center;
+  margin: 16px 0;
+}
+
+
+.modal-card {
+  width: 48px;
+  height: 56px;
+  border-radius: 6px;
+  border: 2px solid #f0c040;
+  overflow: hidden;
+}
+
+.modal-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.modal-reset-button {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 8px;
+  background: #f0c040;
+  color: #1a1a2e;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.modal-reset-button:hover {
+  opacity: 0.85;
+}
+
+/* ========== フッター ========== */
+.footer {
+  margin-top: auto;
+  padding: 16px 0;
+  text-align: center;
+}
+
+.footer p {
+  font-size: 10px;
+  color: #666;
+  margin: 0;
+}
+
+.footer a {
+  color: #888;
+}
+
+/* 管理パネル切り替えボタン */
+.admin-toggle {
+  width: 100%;
+  padding: 8px 16px;
+  box-sizing: border-box;
+}
+.admin-toggle button {
+  background: #f0c040;
+  color: #1a1a2e;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* 管理パネル */
+.admin-panel {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+  box-sizing: border-box;
+  color: #fff;
+}
+.admin-panel h2 {
+  text-align: center;
+  color: #f0c040;
+}
+.admin-date, .admin-deck-name {
+  margin: 12px 0;
+}
+.admin-date label, .admin-deck-name label {
+  margin-right: 8px;
+}
+.admin-date input, .admin-deck-name input {
+  padding: 6px 10px;
+  border-radius: 4px;
+  border: 1px solid #555;
+  background: #2a2a3e;
+  color: #fff;
+  font-size: 14px;
+}
+.admin-info {
+  margin: 12px 0;
+  font-size: 14px;
+  color: #ccc;
+}
+
+/* 選択中カード */
+.admin-selected {
+  display: flex;
+  gap: 6px;
+  margin: 12px 0;
+  min-height: 50px;
+}
+.admin-selected-card {
+  position: relative;
+  cursor: pointer;
+}
+.admin-selected-card img {
+  width: 48px;
+  height: 48px;
+  border-radius: 4px;
+}
+.admin-remove {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: red;
+  color: #fff;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ボタン */
+.admin-buttons {
+  display: flex;
+  gap: 12px;
+  margin: 12px 0;
+}
+.admin-buttons button {
+  padding: 10px 24px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.admin-buttons button:first-child {
+  background: #4caf50;
+  color: #fff;
+}
+.admin-buttons button:first-child:disabled {
+  background: #555;
+  cursor: not-allowed;
+}
+.admin-buttons button:last-child {
+  background: #666;
+  color: #fff;
+}
+.admin-message {
+  color: #f0c040;
+  font-weight: bold;
+}
+
+/* カードグリッド */
+.admin-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(55px, 1fr));
+  gap: 6px;
+  margin: 16px 0;
+}
+.admin-card {
+  cursor: pointer;
+  border-radius: 4px;
+  border: 2px solid transparent;
+  transition: border-color 0.2s;
+}
+.admin-card img {
+  width: 100%;
+  display: block;
+  border-radius: 4px;
+}
+.admin-card-selected {
+  border-color: #f0c040;
+}
+
+/* 保存済みデッキ一覧 */
+.admin-saved {
+  margin-top: 24px;
+  border-top: 1px solid #444;
+  padding-top: 16px;
+}
+.admin-saved h3 {
+  color: #f0c040;
+}
+.admin-saved-item {
+  padding: 8px 0;
+  border-bottom: 1px solid #333;
+  font-size: 13px;
+  color: #ccc;
+}
+
+/* ヒント3候補選択 */
+.admin-reveal-section {
+  margin: 16px 0;
+  padding: 12px;
+  background: #2a2a3e;
+  border-radius: 8px;
+  border: 1px solid #f0c040;
+}
+.admin-reveal-section h3 {
+  color: #f0c040;
+  font-size: 14px;
+  margin: 0 0 8px 0;
+}
+.admin-reveal-info {
+  font-size: 13px;
+  color: #ccc;
+  margin: 0 0 8px 0;
+}
+.admin-reveal-grid {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.admin-reveal-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  transition: border-color 0.2s;
+}
+.admin-reveal-card img {
+  width: 48px;
+  height: 48px;
+  border-radius: 4px;
+}
+.admin-reveal-name {
+  font-size: 10px;
+  color: #aaa;
+  margin-top: 2px;
+  text-align: center;
+}
+.admin-reveal-selected {
+  border-color: #4caf50;
+  background: rgba(76, 175, 80, 0.15);
+}
+.admin-reveal-selected .admin-reveal-name {
+  color: #4caf50;
+  font-weight: bold;
+}
+
+/* 保存済みデッキ一覧 改善 */
+.admin-saved-item {
+  padding: 12px 8px;
+  border-bottom: 1px solid #333;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.admin-saved-item:hover {
+  background: rgba(240, 192, 64, 0.1);
+}
+.admin-saved-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.admin-saved-name {
+  color: #f0c040;
+  font-size: 14px;
+}
+.admin-saved-cards {
+  display: flex;
+  gap: 4px;
+}
+.admin-saved-card-img {
+  width: 36px;
+  height: 36px;
+  border-radius: 4px;
+}
+.admin-saved-unknown {
+  font-size: 10px;
+  color: #f44;
+}
+
+/* デッキ被りチェック警告 */
+.admin-duplicate-warning {
+  background: rgba(244, 67, 54, 0.15);
+  border: 1px solid #f44336;
+  color: #f44336;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 14px;
+  margin: 8px 0;
+}
+
+/* 削除ボタン */
+.admin-delete-button {
+  background: #f44336 !important;
+  color: #fff !important;
+}
+.admin-delete-button:hover {
+  background: #d32f2f !important;
+}
+
+/* 月切り替えナビ */
+.admin-month-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin: 12px 0;
+}
+.admin-month-nav button {
+  background: #444;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+.admin-month-nav button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+.admin-month-label {
+  color: #f0c040;
+  font-size: 18px;
+  font-weight: bold;
+  min-width: 100px;
+  text-align: center;
+}
+.admin-month-count {
+  text-align: center;
+  color: #888;
+  font-size: 13px;
+  margin: 0 0 8px 0;
+}
+.admin-no-decks {
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+  padding: 20px 0;
+}
