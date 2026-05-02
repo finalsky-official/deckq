@@ -29,6 +29,7 @@ export default function DeckPreview({
                 src={`${import.meta.env.BASE_URL}cards/${card?.img}`}
                 alt={card?.name || cardId}
                 className="preview-card-img"
+                loading="lazy"
               />
             </div>
           );

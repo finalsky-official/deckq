@@ -67,6 +67,7 @@ export default function ResultModal({
                   src={`${import.meta.env.BASE_URL}cards/${card?.img}`}
                   alt={card?.name || cardId}
                   className="modal-card-img"
+                  loading="lazy"
                 />
               </div>
             );

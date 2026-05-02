@@ -16,6 +16,7 @@ export default function GuessHistory({ guessHistory, getCard }) {
                       src={`${import.meta.env.BASE_URL}cards/${card?.img}`}
                       alt={card?.name || cardId}
                       className="guess-card-img"
+                      loading="lazy"
                     />
                   </div>
                 );

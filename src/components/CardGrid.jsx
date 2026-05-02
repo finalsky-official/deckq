@@ -36,11 +36,13 @@ export default function CardGrid({
             title={card.name}
           >
             <img
-              src={`${import.meta.env.BASE_URL}cards/${card.img}`}
-              alt={card.name}
-              className="card-cell-img"
-              draggable={false}
-            />
+  src={`${import.meta.env.BASE_URL}cards/${card.img}`}
+  alt={card.name}
+  className="card-cell-img"
+  draggable={false}
+  loading="lazy"
+/>
+
           </div>
         );
       })}
