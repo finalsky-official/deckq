@@ -7,6 +7,9 @@ export default function ResultModal({
   hintsOpened,
   resetGame,
   publicMode,
+  mode,
+  nextPractice,
+  switchMode,
 }) {
   if (!gameOver) return null;
 
@@ -14,6 +17,7 @@ export default function ResultModal({
 
   const generateShareText = () => {
     const attempts = gameWon ? guessHistory.length : "X";
+    const today = new Date().toISOString().slice(0, 10);
     const emojiGrid = guessHistory.map(guess =>
       guess.map(({ result }) => {
         if (result === "green") return "🟩";
@@ -22,7 +26,7 @@ export default function ResultModal({
       }).join("")
     ).join("\n");
 
-    return `#DeckQ #ファイナルスカイ ${new Date().toISOString().slice(0, 10)}\n${attempts}/10（ヒント${hintsUsed}個）\n\n${emojiGrid}\n\nhttps://finalsky-official.github.io/deckq/`;
+    return `#DeckQ #クラロワ\n${attempts}/10（ヒント${hintsUsed}個）\n\n${emojiGrid}\n\nhttps://finalsky-official.github.io/deckq/`;
   };
 
   const handleShare = () => {
@@ -39,7 +43,6 @@ export default function ResultModal({
         text: text,
       });
     } catch (e) {
-      // ユーザーがキャンセルした場合は何もしない
       if (e.name !== "AbortError") {
         alert("共有に失敗しました");
       }
@@ -91,19 +94,30 @@ export default function ResultModal({
           })}
         </div>
 
-        <div className="modal-share-buttons">
-          {canWebShare && (
-            <button className="modal-share-native" onClick={handleWebShare}>
-              共有する
+        {/* デイリーモードのみ共有ボタン表示 */}
+        {mode === "daily" && (
+          <div className="modal-share-buttons">
+            {canWebShare && (
+              <button className="modal-share-native" onClick={handleWebShare}>
+                共有する
+              </button>
+            )}
+            <button className="modal-share-twitter" onClick={handleShare}>
+              Xで共有
             </button>
-          )}
-          <button className="modal-share-twitter" onClick={handleShare}>
-            Xで共有
+            <button className="modal-share-copy" onClick={handleCopy}>
+              結果をコピー
+            </button>
+          </div>
+        )}
+
+        {/* 練習モードのみ次の問題ボタン */}
+        {mode === "daily" && (
+          <button className="modal-practice-button" onClick={() => switchMode("practice")}>
+            練習モードで遊ぶ
           </button>
-          <button className="modal-share-copy" onClick={handleCopy}>
-            結果をコピー
-          </button>
-        </div>
+        )}
+
 
         {!publicMode && (
           <button className="modal-reset-button" onClick={resetGame}>

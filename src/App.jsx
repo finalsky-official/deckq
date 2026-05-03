@@ -25,27 +25,31 @@ export default function App() {
   }, []);
 
   const {
-    todaysDeck,
-    answerIds,
-    cardsData,
-    getCard,
-    todayDate,
-    guessHistory,
-    selectedIds,
-    hintsOpened,
-    gameOver,
-    gameWon,
-    attemptsLeft,
-    cardStatuses,
-    toggleCard,
-    removeFromPreview,
-    submitGuess,
-    openHint,
-    getRevealCardId,
-    resetGame,
-    PUBLIC_MODE,
-    MAX_ATTEMPTS,
-  } = useGame();
+  todaysDeck,
+  answerIds,
+  cardsData,
+  getCard,
+  todayDate,
+  guessHistory,
+  selectedIds,
+  hintsOpened,
+  gameOver,
+  gameWon,
+  attemptsLeft,
+  cardStatuses,
+  toggleCard,
+  removeFromPreview,
+  submitGuess,
+  openHint,
+  getRevealCardId,
+  resetGame,
+  nextPractice,
+  switchMode,
+  mode,
+  PUBLIC_MODE,
+  MAX_ATTEMPTS,
+} = useGame();
+
 
   // 管理画面表示中
   if (isAdmin && showAdmin) {
@@ -67,6 +71,22 @@ export default function App() {
           <button onClick={() => setShowAdmin(true)}>管理パネルを開く</button>
         </div>
       )}
+
+      <div className="mode-switcher">
+  <button
+    className={`mode-button ${mode === "daily" ? "mode-active" : ""}`}
+    onClick={() => switchMode("daily")}
+  >
+    今日のお題
+  </button>
+  <button
+    className={`mode-button ${mode === "practice" ? "mode-active" : ""}`}
+    onClick={() => switchMode("practice")}
+  >
+    練習モード
+  </button>
+</div>
+
 
       <Header
         todayDate={todayDate}
@@ -123,6 +143,9 @@ export default function App() {
         hintsOpened={hintsOpened}
         resetGame={resetGame}
         publicMode={PUBLIC_MODE}
+        mode={mode}
+        nextPractice={nextPractice}
+        switchMode={switchMode}
       />
 
     </div>

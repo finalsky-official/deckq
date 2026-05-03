@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo, useEffect } from "react";
 import cardsData from "../data/cards.json";
 import DECK_POOL from "../data/decks";
-import { getDeckByDate } from "../firebase";
+import { getDeckByDate, getAllDecks } from "../firebase";
 
 const MAX_ATTEMPTS = 10;
 const PUBLIC_MODE = true;
@@ -13,7 +13,6 @@ function getTodayJST() {
     String(jst.getMonth() + 1).padStart(2, "0") + "-" +
     String(jst.getDate()).padStart(2, "0");
 }
-
 
 function hashDate(dateStr) {
   let hash = 0;
@@ -58,23 +57,31 @@ function saveState(state) {
 }
 
 export default function useGame() {
+  const [mode, setMode] = useState("daily"); // "daily" or "practice"
   const [todaysDeck, setTodaysDeck] = useState(null);
+  const [practiceDeck, setPracticeDeck] = useState(null);
+  const [allDecks, setAllDecks] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Firebase からデッキを取得、なければフォールバック
+  // Firebase から全デッキと今日のデッキを取得
   useEffect(() => {
     async function loadDeck() {
       try {
         const today = getTodayJST();
-        const firebaseDeck = await getDeckByDate(today);
+        const [firebaseDeck, decks] = await Promise.all([
+          getDeckByDate(today),
+          getAllDecks()
+        ]);
         if (firebaseDeck && firebaseDeck.cards && firebaseDeck.cards.length === 8) {
           setTodaysDeck(firebaseDeck);
         } else {
           setTodaysDeck(getFallbackDeck());
         }
+        setAllDecks(decks || {});
       } catch (e) {
         console.error("Firebase読み込みエラー、フォールバック使用:", e);
         setTodaysDeck(getFallbackDeck());
+        setAllDecks({});
       } finally {
         setLoading(false);
       }
@@ -82,7 +89,28 @@ export default function useGame() {
     loadDeck();
   }, []);
 
-  const answerIds = todaysDeck?.cards || [];
+  // 練習モード用：ランダムにデッキを選ぶ
+  const pickRandomPracticeDeck = useCallback(() => {
+    if (!allDecks) return;
+    const today = getTodayJST();
+    const candidates = Object.entries(allDecks)
+      .filter(([date]) => date !== today)
+      .map(([, deck]) => deck)
+      .filter(deck => deck.cards && deck.cards.length === 8);
+    if (candidates.length === 0) return;
+    const randomIndex = Math.floor(Math.random() * candidates.length);
+    setPracticeDeck(candidates[randomIndex]);
+  }, [allDecks]);
+
+  // モード切替時に練習デッキを選ぶ
+  useEffect(() => {
+    if (mode === "practice" && !practiceDeck && allDecks) {
+      pickRandomPracticeDeck();
+    }
+  }, [mode, practiceDeck, allDecks, pickRandomPracticeDeck]);
+
+  const activeDeck = mode === "daily" ? todaysDeck : practiceDeck;
+  const answerIds = activeDeck?.cards || [];
 
   const cardMap = useMemo(() => {
     const m = new Map();
@@ -122,7 +150,7 @@ export default function useGame() {
   }, [cardStatuses]);
 
   const attemptsLeft = MAX_ATTEMPTS - guessHistory.length;
-  const alreadyPlayed = PUBLIC_MODE && savedState?.gameOver === true;
+  const alreadyPlayed = PUBLIC_MODE && mode === "daily" && savedState?.gameOver === true;
 
   const toggleCard = useCallback((cardId) => {
     if (gameOver) return;
@@ -163,42 +191,82 @@ export default function useGame() {
     if (won || isLastAttempt) {
       setGameOver(true);
       setGameWon(won);
-      saveState({ guessHistory: newHistory, hintsOpened, gameOver: true, gameWon: won });
+      if (mode === "daily") {
+        saveState({ guessHistory: newHistory, hintsOpened, gameOver: true, gameWon: won });
+      }
     } else {
-      saveState({ guessHistory: newHistory, hintsOpened, gameOver: false, gameWon: false });
+      if (mode === "daily") {
+        saveState({ guessHistory: newHistory, hintsOpened, gameOver: false, gameWon: false });
+      }
     }
-  }, [selectedIds, gameOver, judgeCards, guessHistory, hintsOpened]);
+  }, [selectedIds, gameOver, judgeCards, guessHistory, hintsOpened, mode]);
 
   const openHint = useCallback((index) => {
     setHintsOpened(prev => {
       const next = [...prev];
       next[index] = true;
-      saveState({ guessHistory, hintsOpened: next, gameOver, gameWon });
+      if (mode === "daily") {
+        saveState({ guessHistory, hintsOpened: next, gameOver, gameWon });
+      }
       return next;
     });
-  }, [guessHistory, gameOver, gameWon]);
+  }, [guessHistory, gameOver, gameWon, mode]);
 
   const getRevealCardId = useCallback(() => {
-    if (!todaysDeck) return null;
-    const hint3 = todaysDeck.hints[2];
+    if (!activeDeck) return null;
+    const hint3 = activeDeck.hints?.[2];
     if (!hint3 || hint3.type !== "revealCard") return null;
     for (const cardId of hint3.candidates) {
       if (!alreadyGreenIds.includes(cardId)) return cardId;
     }
     return null;
-  }, [todaysDeck, alreadyGreenIds]);
+  }, [activeDeck, alreadyGreenIds]);
 
+  // デイリーモードのリセット（テスト用）
   const resetGame = useCallback(() => {
-    if (PUBLIC_MODE) return;
+    if (PUBLIC_MODE && mode === "daily") return;
     setGuessHistory([]);
     setSelectedIds([]);
     setHintsOpened([false, false, false]);
     setGameOver(false);
     setGameWon(false);
-  }, []);
+  }, [mode]);
+
+  // 練習モード：次の問題
+  const nextPractice = useCallback(() => {
+    setGuessHistory([]);
+    setSelectedIds([]);
+    setHintsOpened([false, false, false]);
+    setGameOver(false);
+    setGameWon(false);
+    pickRandomPracticeDeck();
+  }, [pickRandomPracticeDeck]);
+
+  // モード切替
+  const switchMode = useCallback((newMode) => {
+    if (newMode === mode) return;
+    setMode(newMode);
+    if (newMode === "daily") {
+      // デイリーに戻す：保存状態を復元
+      const saved = loadSavedState();
+      setGuessHistory(saved?.guessHistory || []);
+      setHintsOpened(saved?.hintsOpened || [false, false, false]);
+      setGameOver(saved?.gameOver || false);
+      setGameWon(saved?.gameWon || false);
+      setSelectedIds([]);
+    } else {
+      // 練習モードへ：状態リセット
+      setGuessHistory([]);
+      setSelectedIds([]);
+      setHintsOpened([false, false, false]);
+      setGameOver(false);
+      setGameWon(false);
+      setPracticeDeck(null); // useEffectで新しいデッキが選ばれる
+    }
+  }, [mode]);
 
   return {
-    todaysDeck: todaysDeck || { name: "", cards: [], hints: [] },
+    todaysDeck: activeDeck || { name: "", cards: [], hints: [] },
     answerIds,
     cardsData,
     cardMap,
@@ -220,6 +288,9 @@ export default function useGame() {
     openHint,
     getRevealCardId,
     resetGame,
+    nextPractice,
+    switchMode,
+    mode,
     PUBLIC_MODE,
     MAX_ATTEMPTS,
   };

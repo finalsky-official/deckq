@@ -816,3 +816,68 @@
   background: #f0c040;
   color: #1a1a2e;
 }
+/* モード切替 */
+.mode-switcher {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px 0;
+}
+.mode-button {
+  background: #333;
+  color: #aaa;
+  border: 1px solid #555;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.mode-button:hover {
+  background: #444;
+}
+.mode-active {
+  background: #f0c040;
+  color: #1a1a2e;
+  border-color: #f0c040;
+}
+.mode-active:hover {
+  background: #e0b030;
+}
+/* 次の問題ボタン */
+.modal-next-button {
+  display: block;
+  width: 100%;
+  margin-top: 16px;
+  padding: 12px;
+  background: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.modal-next-button:hover {
+  background: #43a047;
+}
+
+.modal-practice-button {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  padding: 12px;
+  background: #f0c040;
+  color: #1a1a2e;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.modal-practice-button:hover {
+  background: #e0b030;
+}
+
+
