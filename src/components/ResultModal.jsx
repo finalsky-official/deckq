@@ -118,6 +118,12 @@ export default function ResultModal({
           </button>
         )}
 
+        {/* 練習モードのみ次の問題ボタン */}
+        {mode === "practice" && (
+          <button className="modal-next-button" onClick={nextPractice}>
+            次の問題
+          </button>
+        )}
 
         {!publicMode && (
           <button className="modal-reset-button" onClick={resetGame}>

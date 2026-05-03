@@ -185,7 +185,12 @@ export default function useGame() {
     const results = judgeCards(selectedIds);
     const newHistory = [...guessHistory, results];
     setGuessHistory(newHistory);
-    setSelectedIds([]);
+    // 緑のカードを次の回答に自動引き継ぎ
+    const greenIds = results
+      .filter(r => r.result === "green")
+      .map(r => r.cardId);
+      setSelectedIds(greenIds);
+
     const won = results.every(r => r.result === "green");
     const isLastAttempt = newHistory.length >= MAX_ATTEMPTS;
     if (won || isLastAttempt) {
